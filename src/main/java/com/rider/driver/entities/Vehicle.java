@@ -1,16 +1,22 @@
 package com.rider.driver.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
 public class Vehicle {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     @Column(nullable = false)
     private String make;
@@ -18,23 +24,24 @@ public class Vehicle {
     @Column(nullable = false)
     private String model;
 
-    @Column(name = "MODEL_YEAR", nullable = false)
-    private Double modelYear;
+    @Column(nullable = false)
+    private int model_Year;
 
     @Column(nullable = false, unique = true)
     private String plate;
 
-    @Column(name = "TYPE", nullable = false)
-    private String vehicleType;
+    @Column(nullable = false)
+    private String Type;
 
-    @Column(name = "COLOR", nullable = false)
-    private String vehicleColor;
+    @Column(nullable = false)
+    private String Color;
 
     @Column(nullable = false, unique = true)
     private String document;
 
+    @JsonBackReference
     @OneToOne
-    @JoinColumn(name = "DRIVER_ID", unique = true)
+    @JoinColumn(unique = true)
     private Driver driver;
 
 }
