@@ -44,4 +44,11 @@ public class Vehicle {
     @JoinColumn(unique = true)
     private Driver driver;
 
+    public String getPlate() {
+        return this.plate;
+    }
+
+    public void setPlate(String plate) {
+        this.plate = plate;
+    }
 }
