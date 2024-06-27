@@ -43,15 +43,19 @@ class SecurityConfig {
 
     @Bean
     public SecurityFilterChain resourceServerFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(auth -> auth
-                .requestMatchers(new AntPathRequestMatcher("/open", HttpMethod.GET.name()))
-                .permitAll()
-                .requestMatchers(new AntPathRequestMatcher("/admin"))
-                .hasRole("admin")
-                .requestMatchers(new AntPathRequestMatcher("/secured"))
+        http.authorizeHttpRequests(authorize -> authorize
+                .requestMatchers(new AntPathRequestMatcher("/driver", HttpMethod.GET.name()))
                 .permitAll()
                 .anyRequest()
-                .authenticated());
+                .authenticated()
+                .requestMatchers(new AntPathRequestMatcher("/start"))
+                .hasRole("driver")
+                .requestMatchers(new AntPathRequestMatcher("/stop"))
+                .hasRole("driver")
+                .requestMatchers(new AntPathRequestMatcher("/accept"))
+                .hasRole("driver")
+                .requestMatchers(new AntPathRequestMatcher("/finish"))
+                .hasRole("driver"));
         http.oauth2ResourceServer(oauth2 -> oauth2
                 .jwt(jwt -> jwt.jwtAuthenticationConverter(grantedAuthoritiesExtractor())));
         return http.build();
